@@ -6,12 +6,12 @@
 
 Check escalation matrices for owner, backup, and severity routing gaps. It solves review drift by turning plain-text plans into deterministic CI-friendly findings.
 
-## Input Contract 15
+## Input Contract
 
 Accepts escalation matrix text. The reader supports plain text, JSON, JSONL, and CSV so the
 tool can fit into scripts, CI jobs, and review exports.
 
-## CLI Walkthrough 15
+## CLI Walkthrough
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -20,7 +20,7 @@ escalation-path-check examples/sample.txt --json --fail-on medium
 python -m escalation_path_check --help
 ```
 
-## Rule Surface 15
+## Rule Surface
 
 | Rule | Severity | Meaning |
 |---|---:|---|
@@ -28,7 +28,7 @@ python -m escalation_path_check --help
 | `missing-backup` | medium | backup is missing |
 | `missing-path` | low | escalation path missing |
 
-## Validation Notes 15
+## Validation Notes
 
 ```bash
 ruff check .
