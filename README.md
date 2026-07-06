@@ -2,35 +2,32 @@
 
 ![Escalation Path Check cover](assets/readme-cover.svg)
 
-Check escalation matrices for owner, backup, and severity routing gaps.
+Check escalation matrices for owner, backup, and severity routing gaps. It keeps the review small: one input file, a short list of findings, and enough context to fix the line that caused the warning.
 
-## The rule file is the product
+## Signals
 
-- `unknown-owner` (high): owner is missing. Fix: assign primary owner.
-- `missing-backup` (medium): backup is missing. Fix: assign backup path.
-- `missing-path` (low): escalation path missing. Fix: document page or contact route.
+| Signal | Level | What it flags | Fix direction |
+| --- | --- | --- | --- |
+| `unknown-owner` | high | owner is missing | assign primary owner |
+| `missing-backup` | medium | backup is missing | assign backup path |
+| `missing-path` | low | escalation path missing | document page or contact route |
 
-Everything else in the repo exists to feed records into those checks and render the answer in a way a person can act on.
+## Input contrast
 
-## Shell session
+```text
+risky: severity p0 owner unknown backup none path missing
+clean: severity p0 owner platform backup sre-manager path pager
+```
+
+## Try the fixture
 
 ```bash
 git clone https://github.com/mertefekurt/escalation-path-check.git
 cd escalation-path-check
-python -m venv .venv
-source .venv/bin/activate
 python -m pip install -e ".[dev]"
 escalation-path-check examples/sample.txt
-escalation-path-check examples/sample.txt --json
 ```
 
-## Repository shape
+## Signal route
 
-```text
-.github/        CI workflow
-examples/       sample inputs
-src/            package source
-tests/          test coverage
-.gitignore      project file
-pyproject.toml  package metadata
-```
+![Workflow diagram](assets/readme-diagram.svg)
