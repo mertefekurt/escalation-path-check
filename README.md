@@ -1,46 +1,36 @@
 # Escalation Path Check
 
-<p align="center">
-  <img src="assets/readme-cover.svg" alt="Escalation Path Check cover" width="100%" />
-</p>
-
-![stack](https://img.shields.io/badge/stack-Python-4b5563?style=flat-square) ![python](https://img.shields.io/badge/python-3.11-2563eb?style=flat-square) ![license](https://img.shields.io/badge/license-MIT-16a34a?style=flat-square) ![ci](https://img.shields.io/badge/ci-GitHub%20Actions-dc2626?style=flat-square)
+![Escalation Path Check cover](assets/readme-cover.svg)
 
 Check escalation matrices for owner, backup, and severity routing gaps.
 
-## The short version
+## The rule file is the product
 
-`escalation-path-check` is intentionally small: feed it a file, get deterministic findings, and decide whether the result should block a merge or just guide cleanup.
+- `unknown-owner` (high): owner is missing. Fix: assign primary owner.
+- `missing-backup` (medium): backup is missing. Fix: assign backup path.
+- `missing-path` (low): escalation path missing. Fix: document page or contact route.
 
-## Rule surface
+Everything else in the repo exists to feed records into those checks and render the answer in a way a person can act on.
 
-| Rule | Severity | What it catches |
-| --- | --- | --- |
-| `unknown-owner` | high | owner is missing |
-| `missing-backup` | medium | backup is missing |
-| `missing-path` | low | escalation path missing |
-
-## Usage
+## Shell session
 
 ```bash
+git clone https://github.com/mertefekurt/escalation-path-check.git
+cd escalation-path-check
+python -m venv .venv
+source .venv/bin/activate
 python -m pip install -e ".[dev]"
 escalation-path-check examples/sample.txt
-escalation-path-check examples/sample.txt --json --fail-on medium
+escalation-path-check examples/sample.txt --json
 ```
 
-## Useful defaults
+## Repository shape
 
-| Option | Reason |
-| --- | --- |
-| `--json` | machine-readable output for scripts |
-| `--fail-on medium` | stricter CI gate when warnings matter |
-| `--format auto` | let the reader detect text, CSV, JSON, or JSONL |
-
-## Local checks
-
-```bash
-python -m pip install -e ".[dev]"
-ruff check .
-pytest
-python -m escalation_path_check --help
+```text
+.github/        CI workflow
+examples/       sample inputs
+src/            package source
+tests/          test coverage
+.gitignore      project file
+pyproject.toml  package metadata
 ```
